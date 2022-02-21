@@ -1,5 +1,5 @@
 
-function getRandomInteger (rangeStart, rangeEnd) {
+function getRandomInteger (rangeStart, rangeEnd){
   let start=0;
   let end = 0;
   let result = 0;
@@ -17,9 +17,9 @@ function getRandomInteger (rangeStart, rangeEnd) {
   result = Math.floor(((Math.random()*(end-start))+start));
   return result;
 }
+getRandomInteger(10, 3);
 
-
-function getRandomFraction(rangeStart, rangeEnd, fractionLength ){
+const getRandomFraction = function (rangeStart, rangeEnd, fractionLength ){
   let start=0;
   let end = 0;
   let result = 0;
@@ -36,4 +36,5 @@ function getRandomFraction(rangeStart, rangeEnd, fractionLength ){
   result = ((Math.random()*(end-start))+start);
   result = Number(result.toFixed(fractionLength));
   return result;
-}
+};
+getRandomFraction(27, -6, 7);
