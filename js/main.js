@@ -54,8 +54,6 @@ function getRandomArrayForObject (array){
 
   return flagArray;
 }
-
-
 const getRandomAuthor = ()=>{
   let result= getNonRepeatingNum ();
   if (10>result){
@@ -64,14 +62,7 @@ const getRandomAuthor = ()=>{
   }
   return result;
 };
-
-
-// В файле main.js на основе написанных в прошлом задании вспомогательных функций напишите
-// необходимые функции для создания массива из 10 сгенерированных JS-объектов.
-// Каждый объект массива — описание похожего объявления неподалёку.
-const numberObjectJs = 10;
-const getRandomJsObject = ()=> {
-  const arrayType = [
+const arrayType = [
     'palace',
     'flat',
     'house',
@@ -97,10 +88,10 @@ const getRandomJsObject = ()=> {
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
     'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
   ];
+const NUMBER_OBJEKT_JS = 10;
+const getRandomJsObject = ()=> {
   const randomlat = getRandomFraction(35.65000, 35.70000, 5);
   const randomlng = getRandomFraction(139.70000, 139.80000, 5);
-
-
   const author = {
     avatar:`img/avatars/user${getRandomAuthor()}`
   };
@@ -124,5 +115,4 @@ const getRandomJsObject = ()=> {
   };
   return [author, offer, location];
 };
-const arrayTenRandomObject = Array.from({length:numberObjectJs}, getRandomJsObject);
-
+const arrayTenRandomObject = Array.from({length:NUMBER_OBJEKT_JS}, getRandomJsObject);
