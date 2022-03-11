@@ -1,18 +1,29 @@
-// В этом задании мы начнём реализацию сценария переключения режимов страницы
-// между неактивным и активным. Так как переключение режимов завязано на карте,
-// сейчас мы выполним все подготовительные работы, а после, в другом задании,
-// свяжем переключение с картой.
+const AD_FORM = document.querySelector('.ad-form');
+const MAP_FILTER = document.querySelector('.map__filters');
+const getDisabled = function(){
+  AD_FORM.classList.add('ad-form--disabled');
+  const adFormFieldsetList = AD_FORM.querySelectorAll('fieldset');
+  for(const elem of adFormFieldsetList){
+    elem.disabled=true;
+  }
+  MAP_FILTER.classList.add('map__filters--disabled');
+  const mapFilterFieldsetList = MAP_FILTER.children;
+  for(const elem of mapFilterFieldsetList){
+    elem.disabled=true;
+  }
+};
+getDisabled();
 
-//     Заведите модуль, который будет отвечать за работу с формой.
-
-//     Реализуйте с помощью JavaScript (удобнее функцией!) перевод страницы
-//     в неактивное состояние. Все пункты, кроме первого про карту.
-
-//         Важно. Неактивность должна добавляться именно средствами JavaScript,
-//         иначе, если классы и атрибуты добавить напрямую в HTML, при ошибке в
-//         скриптах или ошибке загрузки скриптов сайт будет недоступен пользователю.
-
-//     Напишите функцию, которая будет переводить страницу в активное состояние.
-//     В задании про карту мы будем вызывать эту функцию, когда карта будет
-//     загружена и готова к работе, а пока вы можете просто вызвать эту
-//     функцию активации в своём коде.
+const getActive = function(){
+  AD_FORM.classList.remove('ad-form--disabled');
+  const adFormFieldsetList = AD_FORM.querySelectorAll('fieldset');
+  for(const elem of adFormFieldsetList){
+    elem.disabled=false;
+  }
+  MAP_FILTER.classList.remove('map__filters--disabled');
+  const mapFilterFieldsetList = MAP_FILTER.children;
+  for(const elem of mapFilterFieldsetList){
+    elem.disabled=false;
+  }
+};
+getActive();
