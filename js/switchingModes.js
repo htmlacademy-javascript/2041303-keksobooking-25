@@ -1,3 +1,4 @@
+const map = L.map('map-canvas').setView([51.505, -0.09], 13);
 const AD_FORM = document.querySelector('.ad-form');
 const MAP_FILTER = document.querySelector('.map__filters');
 const getDisabled = function(){
@@ -15,6 +16,14 @@ const getDisabled = function(){
 getDisabled();
 
 const getActive = function(){
+  L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+    maxZoom: 18,
+    id: 'mapbox/streets-v11',
+    tileSize: 512,
+    zoomOffset: -1,
+    accessToken: 'pk.eyJ1IjoidGVtbmlnb3IiLCJhIjoiY2wwbWkzMWx5MDJ0eTNrcWk5dmRtc2Q3cSJ9.ijd9ztHpKenzTe2H5DTAbQ'
+  }).addTo(map);
   AD_FORM.classList.remove('ad-form--disabled');
   const adFormFieldsetList = AD_FORM.querySelectorAll('fieldset');
   for(const elem of adFormFieldsetList){
