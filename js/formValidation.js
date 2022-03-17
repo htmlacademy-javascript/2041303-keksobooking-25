@@ -1,46 +1,75 @@
-window.onload = function () {
- const form = document.querySelector(".ad-form");
+const form = document.querySelector('.ad-form');
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
-  errorClass: '.error__message',
-  successClass: 'success__message',
-  errorTextParent: 'ad-form__span',
+  errorClass: 'ad-form--invalid',
+  successClass: 'ad-form--valid',
+  errorTextParent: 'ad-form__element',
   errorTextTag: 'span',
   errorTextClass: 'ad-form__error',
 });
+const title = form.querySelector('#title');
+
 function getValidationTitle (value) {
   return value.length >=30 && value.length <= 100;
-};
+}
+
 pristine.addValidator(
-  form.querySelector('#title'),
+  title,
   getValidationTitle,
   'От 30 до 100 символов',
 );
+const price = form.querySelector('#price');
 
-const buttonSubmit = document.querySelector('.ad-form__submit');
-  form.addEventListener('submit', (evt)=>{
-    evt.preventDefault();
-    pristine.validate();
-  });
-  console.log(buttonSubmit)
-  console.log(form)
+function getValidationPrice (value) {
+  return value<= 100000;
+}
+pristine.addValidator(
+  price,
+  getValidationPrice,
+  'Максимальное значение — 100 000'
+);
+
+const roomOptions = {
+  '1':['1'],
+  '2':['1', '2'],
+  '3':['1', '2', '3'],
+  '100':['0'],
+};
+const capacityErrorMassageOptions = {
+  '1':' только для 1 гостя',
+  '2':' только для 2 гостей или 1 гостя',
+  '3':' для 3 гостей, для 2 гостей или 1 гостя',
+  '100':'только для фирм',
+};
+
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+
+function getValidateCapacity(){
+  return roomOptions[roomNumber.value].includes(capacity.value);
 }
 
+function getCapacityErrorMassage (){
+  return capacityErrorMassageOptions[roomNumber.value];
+}
 
-// 3.6. Поле «Количество комнат» синхронизировано с
-// полем «Количество мест» таким образом, что при
-// выборе количества комнат вводятся ограничения на
-// допустимые варианты выбора количества гостей:
-// 1 комната — «для 1 гостя»;
-// 2 комнаты — «для 2 гостей» или «для 1 гостя»;
-// 3 комнаты — «для 3 гостей», «для 2 гостей» или «для 1 гостя»;
-// 100 комнат — «не для гостей».
+pristine.addValidator(
+  capacity,
+  getValidateCapacity,
+  getCapacityErrorMassage
+);
 
-// Обратите внимание, под ограничениями подразумевается валидация.
+roomNumber.addEventListener('change', ()=>{
+  getValidateCapacity();
+  pristine.validate(capacity);
+});
 
-// Ограничение путём удаления из разметки лишних <option> или
-// добавления им состояния disabled приведёт к плохому UX (опыту взаимодействия).
-// Даже если уже выбранное значение не попадает под новые ограничения, не стоит
-// без ведома пользователя изменять значение поля. Пусть ошибку отловит валидация
-// формы.
+const buttonSubmit = document.querySelector('.ad-form__submit');
+buttonSubmit.disabled=true;
+window.onload=buttonSubmit.disabled=false;
+form.addEventListener('submit', (evt)=>{
+  evt.preventDefault();
+  buttonSubmit.disabled=true;
+  pristine.validate();
+});
