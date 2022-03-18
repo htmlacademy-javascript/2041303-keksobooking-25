@@ -1,3 +1,4 @@
+
 const AD_FORM = document.querySelector('.ad-form');
 const MAP_FILTER = document.querySelector('.map__filters');
 const getDisabled = function(){
