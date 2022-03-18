@@ -9,7 +9,14 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error',
 });
 const title = form.querySelector('#title');
-
+const typeHousOptions = {
+  'bungalow': 0,
+  'flat': 1000,
+  'hotel': 3000,
+  'house': 5000,
+  'palace': 10000
+};
+const typeHous = document.querySelector('#type');
 function getValidationTitle (value) {
   return value.length >=30 && value.length <= 100;
 }
@@ -22,12 +29,18 @@ pristine.addValidator(
 const price = form.querySelector('#price');
 
 function getValidationPrice (value) {
-  return value<= 100000;
+  if(value === undefined){
+    return false;
+  }
+  return value>= typeHousOptions[typeHous.value] && value<= 100000;
+}
+function getPriceErrorMassage (value) {
+  return `От ${typeHousOptions[typeHous.value]} до 100000`;
 }
 pristine.addValidator(
   price,
   getValidationPrice,
-  'Максимальное значение — 100 000'
+  getPriceErrorMassage,
 );
 
 const roomOptions = {
@@ -63,6 +76,31 @@ pristine.addValidator(
 roomNumber.addEventListener('change', ()=>{
   getValidateCapacity();
   pristine.validate(capacity);
+});
+
+typeHous.addEventListener('change', ()=>{
+  getValidationPrice();
+  pristine.validate(price);
+});
+
+const time = document.querySelector('.ad-form__element--time');
+const timein = document.querySelector('#timein');
+const timeout = document.querySelector('#timeout');
+const timeinCollection = timein.children;
+const timeoutCollection = timeout.children;
+
+time.addEventListener('change', (evt)=>{
+  const index = evt.target.selectedIndex;
+  for( const element of timeinCollection ){
+    element.removeAttribute('selected');
+  }
+  for(const element of timeoutCollection){
+    element.removeAttribute('selected');
+  }
+  timeoutCollection[index].setAttribute('selected', 'selected');
+  timeinCollection[index].setAttribute('selected', 'selected');
+  console.log(timeoutCollection[index]);
+  console.log(timeinCollection[index]);
 });
 
 const buttonSubmit = document.querySelector('.ad-form__submit');
