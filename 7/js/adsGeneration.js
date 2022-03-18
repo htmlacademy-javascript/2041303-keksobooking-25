@@ -43,16 +43,6 @@ const getAd = function(numArrayAd){
   for(const elem of arrFeatures){
     features.appendChild(elem);
   }
-  // featuresList.forEach(featuresListItem => {
-
-  //   const featuresPruf= offer.features.some(userFeatures=>{
-  //     featuresListItem.classList.contains(`popup__feature--${userFeatures}`);
-
-  //    })
-  //   if(!featuresPruf){
-  //        featuresListItem.remove();
-  //   }
-  // }
 
   const description = cloneForm.querySelector('.popup__description');
   description.textContent = offer.description;
