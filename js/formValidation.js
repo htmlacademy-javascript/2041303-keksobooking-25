@@ -34,7 +34,7 @@ function getValidationPrice (value) {
   }
   return value>= typeHousOptions[typeHous.value] && value<= 100000;
 }
-function getPriceErrorMassage (value) {
+function getPriceErrorMassage () {
   return `От ${typeHousOptions[typeHous.value]} до 100000`;
 }
 pristine.addValidator(
@@ -83,24 +83,12 @@ typeHous.addEventListener('change', ()=>{
   pristine.validate(price);
 });
 
-const time = document.querySelector('.ad-form__element--time');
-const timein = document.querySelector('#timein');
-const timeout = document.querySelector('#timeout');
-const timeinCollection = timein.children;
-const timeoutCollection = timeout.children;
+const time = form.querySelector('.ad-form__element--time');
 
 time.addEventListener('change', (evt)=>{
-  const index = evt.target.selectedIndex;
-  for( const element of timeinCollection ){
-    element.removeAttribute('selected');
-  }
-  for(const element of timeoutCollection){
-    element.removeAttribute('selected');
-  }
-  timeoutCollection[index].setAttribute('selected', 'selected');
-  timeinCollection[index].setAttribute('selected', 'selected');
-  console.log(timeoutCollection[index]);
-  console.log(timeinCollection[index]);
+  const actual = evt.target.value;
+  form.querySelector('#timein').value=actual;
+  form.querySelector('#timeout').value=actual;
 });
 
 const buttonSubmit = document.querySelector('.ad-form__submit');
