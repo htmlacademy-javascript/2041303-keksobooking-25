@@ -1,3 +1,4 @@
-import './adsGeneration.js';
-import './switchingModes.js';
+import './hotelPopap.js';
 import './formValidation.js';
+import './addMap.js';
+import './utilitSlaider.js';

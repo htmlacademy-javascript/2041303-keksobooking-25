@@ -1,11 +1,11 @@
 import { arrayRandomFunction } from './utilitRandomNum.js';
+import { hotelNumberInfo } from './hotelInfo.js';
 const [
   getRandomInteger,
   getRandomFraction,
   getRandomArrayForObject,
   getRandomAuthor,
 ] = arrayRandomFunction;
-import { hotelNumberInfo } from './hotelNumberInfo.js';
 const [
   arrayType,
   arrayTime,
