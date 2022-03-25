@@ -13,7 +13,6 @@ const getDisabled = function(){
     elem.disabled=true;
   }
 };
-getDisabled();
 
 const getActive = function(){
   AD_FORM.classList.remove('ad-form--disabled');
@@ -27,4 +26,4 @@ const getActive = function(){
     elem.disabled=false;
   }
 };
-getActive();
+export{getActive, getDisabled};

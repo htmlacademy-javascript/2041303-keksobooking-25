@@ -60,10 +60,10 @@ const getRandomAuthor = ()=>{
   }
   return result;
 };
-const arrayRandomFunction = [
+const arrayRandomFunctions = [
   getRandomInteger,
   getRandomFraction,
   getRandomArrayForObject,
   getRandomAuthor,
 ];
-export{arrayRandomFunction};
+export{arrayRandomFunctions};
