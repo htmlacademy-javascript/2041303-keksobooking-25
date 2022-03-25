@@ -1,13 +1,5 @@
+import { addSlider } from './utilitSlaider.js';
 const form = document.querySelector('.ad-form');
-
-const pristine = new Pristine(form, {
-  classTo: 'ad-form__element',
-  errorClass: 'ad-form--invalid',
-  successClass: 'ad-form--valid',
-  errorTextParent: 'ad-form__element',
-  errorTextTag: 'span',
-  errorTextClass: 'ad-form__error',
-});
 const title = form.querySelector('#title');
 const typeHousOptions = {
   'bungalow': 0,
@@ -17,6 +9,33 @@ const typeHousOptions = {
   'palace': 10000
 };
 const typeHous = document.querySelector('#type');
+const price = form.querySelector('#price');
+const roomOptions = {
+  '1':['1'],
+  '2':['1', '2'],
+  '3':['1', '2', '3'],
+  '100':['0'],
+};
+const capacityErrorMassageOptions = {
+  '1':' только для 1 гостя',
+  '2':' только для 2 гостей или 1 гостя',
+  '3':' для 3 гостей, для 2 гостей или 1 гостя',
+  '100':'только для фирм',
+};
+const roomNumber = document.querySelector('#room_number');
+const capacity = document.querySelector('#capacity');
+const buttonSubmit = document.querySelector('.ad-form__submit');
+const time = form.querySelector('.ad-form__element--time');
+const slaider = form.querySelector('.ad-form__slider');
+const pristine = new Pristine(form, {
+  classTo: 'ad-form__element',
+  errorClass: 'ad-form--invalid',
+  successClass: 'ad-form--valid',
+  errorTextParent: 'ad-form__element',
+  errorTextTag: 'span',
+  errorTextClass: 'ad-form__error',
+});
+
 function getValidationTitle (value) {
   return value.length >=30 && value.length <= 100;
 }
@@ -26,7 +45,7 @@ pristine.addValidator(
   getValidationTitle,
   'От 30 до 100 символов',
 );
-const price = form.querySelector('#price');
+
 
 function getValidationPrice (value) {
   if(value === undefined){
@@ -42,22 +61,6 @@ pristine.addValidator(
   getValidationPrice,
   getPriceErrorMassage,
 );
-
-const roomOptions = {
-  '1':['1'],
-  '2':['1', '2'],
-  '3':['1', '2', '3'],
-  '100':['0'],
-};
-const capacityErrorMassageOptions = {
-  '1':' только для 1 гостя',
-  '2':' только для 2 гостей или 1 гостя',
-  '3':' для 3 гостей, для 2 гостей или 1 гостя',
-  '100':'только для фирм',
-};
-
-const roomNumber = document.querySelector('#room_number');
-const capacity = document.querySelector('#capacity');
 
 function getValidateCapacity(){
   return roomOptions[roomNumber.value].includes(capacity.value);
@@ -83,15 +86,12 @@ typeHous.addEventListener('change', ()=>{
   pristine.validate(price);
 });
 
-const time = form.querySelector('.ad-form__element--time');
-
 time.addEventListener('change', (evt)=>{
   const actual = evt.target.value;
   form.querySelector('#timein').value=actual;
   form.querySelector('#timeout').value=actual;
 });
 
-const buttonSubmit = document.querySelector('.ad-form__submit');
 buttonSubmit.disabled=true;
 window.onload=buttonSubmit.disabled=false;
 form.addEventListener('submit', (evt)=>{
@@ -99,3 +99,5 @@ form.addEventListener('submit', (evt)=>{
   buttonSubmit.disabled=true;
   pristine.validate();
 });
+addSlider(slaider, price,typeHousOptions, typeHous);
+

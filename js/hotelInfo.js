@@ -1,11 +1,11 @@
-const arrayType = [
+const arrayTyps = [
   'palace',
   'flat',
   'house',
   'bungalow',
   'hotel'
 ];
-const arrayTime = [
+const arrayTims = [
   '12:00',
   '13:00',
   '14:00',
@@ -23,10 +23,10 @@ const arrayPhotos = [
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/brandon-hoogenboom-SNxQGWxZQi0.jpg',
   'https://assets.htmlacademy.ru/content/intensive/javascript-1/keksobooking/claire-rendall-b6kAwr1i0Iw.jpg',
 ];
-const hotelNumberInfo =[
-  arrayType,
-  arrayTime,
+const hotelNumbersInfo =[
+  arrayTyps,
+  arrayTims,
   arrayFeatures,
   arrayPhotos,
 ];
-export{hotelNumberInfo};
+export{hotelNumbersInfo};

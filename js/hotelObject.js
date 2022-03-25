@@ -1,17 +1,17 @@
-import { arrayRandomFunction } from './utilitRandomNum.js';
-import { hotelNumberInfo } from './hotelInfo.js';
+import { arrayRandomFunctions } from './utilitRandomNum.js';
+import { hotelNumbersInfo } from './hotelInfo.js';
 const [
   getRandomInteger,
   getRandomFraction,
   getRandomArrayForObject,
   getRandomAuthor,
-] = arrayRandomFunction;
+] = arrayRandomFunctions;
 const [
-  arrayType,
-  arrayTime,
+  arrayTyps,
+  arrayTims,
   arrayFeatures,
   arrayPhotos,
-] = hotelNumberInfo;
+] = hotelNumbersInfo;
 
 const getRandomJsObject = ()=> {
   const randomlat = getRandomFraction(35.65000, 35.70000, 5);
@@ -23,11 +23,11 @@ const getRandomJsObject = ()=> {
     title: 'Нашь оффис находится',
     address: `${randomlat} ${randomlng}`,
     price: getRandomInteger(10000,1100000),
-    type: arrayType[getRandomInteger(0, arrayType.length-1)],
+    type: arrayTyps[getRandomInteger(0, arrayTyps.length-1)],
     rooms:getRandomInteger(1, 5),
     guests: getRandomInteger(1, 5),
-    checkin: arrayTime[getRandomInteger(0, arrayTime.length-1)],
-    checkout:arrayTime[getRandomInteger(0, arrayTime.length-1)],
+    checkin: arrayTims[getRandomInteger(0, arrayTims.length-1)],
+    checkout:arrayTims[getRandomInteger(0, arrayTims.length-1)],
     features:getRandomArrayForObject(arrayFeatures),
     description:'описание помещения',
     photos:getRandomArrayForObject(arrayPhotos),
