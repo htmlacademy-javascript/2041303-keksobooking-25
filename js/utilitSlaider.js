@@ -33,3 +33,4 @@ const addSlider = (createSliderElement, price,typeHousOptions, typeHous )=>{
   });
 };
 export{addSlider};
+
