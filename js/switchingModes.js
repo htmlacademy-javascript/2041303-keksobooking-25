@@ -26,4 +26,11 @@ const getActive = function(){
     elem.disabled=false;
   }
 };
-export{getActive, getDisabled};
+const getDisabledFilter = ()=>{
+  MAP_FILTER.classList.add('map__filters--disabled');
+  const mapFilterFieldsetList = MAP_FILTER.children;
+  for(const elem of mapFilterFieldsetList){
+    elem.disabled=true;
+  }
+}
+export{getActive, getDisabled, getDisabledFilter};

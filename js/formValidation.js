@@ -1,5 +1,12 @@
 import { addSlider } from './utilitSlaider.js';
+import { getMapMarker } from './addMap.js';
+import {getSubmit} from './api.js';
+const success = document.querySelector('#success').content;
+const error = document.querySelector('#error').content;
+const placeMassage = document.querySelector("body");
 const form = document.querySelector('.ad-form');
+const formFilter = document.querySelector('.map__filters');
+const reset = form.querySelector('.ad-form__reset')
 const title = form.querySelector('#title');
 const typeHousOptions = {
   'bungalow': 0,
@@ -27,6 +34,7 @@ const capacity = document.querySelector('#capacity');
 const buttonSubmit = document.querySelector('.ad-form__submit');
 const time = form.querySelector('.ad-form__element--time');
 const slaider = form.querySelector('.ad-form__slider');
+
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
   errorClass: 'ad-form--invalid',
@@ -94,10 +102,50 @@ time.addEventListener('change', (evt)=>{
 
 buttonSubmit.disabled=true;
 window.onload=buttonSubmit.disabled=false;
-form.addEventListener('submit', (evt)=>{
-  evt.preventDefault();
-  buttonSubmit.disabled=true;
-  pristine.validate();
-});
 addSlider(slaider, price,typeHousOptions, typeHous);
 
+function onSaccessSubmit(cb){
+  const successClone = success.cloneNode(true);
+  const successMassage = successClone.querySelector('.success');
+  placeMassage.appendChild(successMassage);
+  cb(successMassage,successMassage);
+  form.reset();
+  formFilter.reset();
+  price.value= 1000;
+  getMapMarker()
+ }
+function onRemoveMassage (place){
+  place.addEventListener('click', ()=>{
+    place.remove();
+    document.removeEventListener('keydown', onRemoveMassage);
+  })
+  const button = place.querySelector('button')
+  if(button!== null){
+  button.addEventListener('click', ()=>{
+    place.remove();
+  document.removeEventListener('keydown', onRemoveMassage);
+  })}
+  document.addEventListener('keydown', (evt)=>{
+    if(evt.key==='Escape'){
+      evt.preventDefault();
+      place.remove();
+      document.removeEventListener('keydown', onRemoveMassage);
+     }
+    })
+}
+function onErrorSubmite (err, cb){
+console.log(err)
+  const errorClone = error.cloneNode(true);
+  const errorMassage = errorClone.querySelector('.error');
+  placeMassage.appendChild(errorMassage);
+  cb(errorMassage);
+}
+reset.addEventListener('click', (evt)=>{
+  evt.preventDefault();
+  form.reset();
+  formFilter.reset();
+  price.value= 1000;
+  getMapMarker()
+})
+getSubmit(onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine)
+export{onRemoveMassage};

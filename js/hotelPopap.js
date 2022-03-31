@@ -1,4 +1,4 @@
-import { getRandomJsObject } from './hotelObject.js';
+import {getDisabledFilter} from './switchingModes.js';
 const card = document.querySelector('#card').content;
 
 const checkFillingText = function(...checkElemrnt){
@@ -23,16 +23,13 @@ const checkPhotos = function(checkElemrnt){
     }
   }
 };
-const getAds = function S(num){
-  const adForms = [];
-  const arrayTenRandomHjtelObject = Array.from({length:num}, getRandomJsObject);
 
-  const getAdForm = function(numArrayAd){
-    const ArrayAd = arrayTenRandomHjtelObject[numArrayAd];
-    const [author, offer]=  ArrayAd;
+ function getAdForm(successObject){
+    const ArrayAd = successObject;
+    const {author, offer, location}=  ArrayAd;
+    const formForMapMarker = [];
     const cloneForm = card.cloneNode(true);
     const headline = cloneForm.querySelector('.popup__title');
-
     const address = cloneForm.querySelector('.popup__text--address');
     const price = cloneForm.querySelector('.popup__text--price');
     const typeHouseObjekt = {
@@ -58,12 +55,14 @@ const getAds = function S(num){
     housing.textContent=typeHouseObjekt[offer.type];
     roomAndGuests.textContent= `${offer.rooms} комнаты для ${offer.guests} гостей`;
     checkinCheckout.textContent=`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
+    if(offer.features!==undefined){
     featuresList.forEach((featuresListItem) => {
       for( const element of offer.features)
       {if (featuresListItem.classList[1]===(`popup__feature--${element}`)){
         arrFeatures.push(featuresListItem);
       }}
     });
+  }
     for(const elem of featuresList){
       elem.remove();
     }
@@ -71,22 +70,54 @@ const getAds = function S(num){
       features.appendChild(elem);
     }
     description.textContent = offer.description;
-    for(const elem of offer.photos){
+    if(offer.photos!==undefined){
+    offer.photos.forEach((element)=>{
       const newFoto = photo.cloneNode(false);
-      newFoto.src=elem;
+      newFoto.src=element;
       photos.appendChild(newFoto);
-    }
+    })
+  }
     photo.remove();
     avatar.src = author.avatar;
     checkFillingText(headline, address, price, housing, roomAndGuests, checkinCheckout, description);
     checkFeatures(features);
     checkPhotos(photos);
-    return cloneForm;
+    formForMapMarker.push(location);
+    formForMapMarker.push(cloneForm)
+    return formForMapMarker;
   };
-  arrayTenRandomHjtelObject.forEach( (element,index)=>{
-    adForms.push(getAdForm(index));
-  });
+  function onSuccess (data){
+    const adForms = [];
+    for(const element of data){
+     adForms.push(getAdForm(element));
+    }
+    return adForms;
+   };
+  function onError(err){
+    const ALERT_SHOW_TIME = 10000;
+    const map = document.querySelector('.map__canvas');
+    const placeError = document.createElement('div');
+    placeError.style.display='flex';
+    placeError.style.justifySelf='center';
+    placeError.style.position='fixed';
+    placeError.style.width = '1150px';
+    placeError.style.border = '2px solid red';
+    placeError.style.margin = '20px';
+    placeError.style.padding='30px';
+    placeError.style.fontFamily='"Roboto", "Arial", sans-serif';
+    placeError.style.fontSize= '22px';
+    placeError.style.textAlign= 'center';
+    placeError.style.fontWeight='700';
+    placeError.style.overflow='auto';
+    placeError.style.zIndex='999999';
+    placeError.textContent=`Произошла ошибка загрузки маркеров ${err}`;
+    getDisabledFilter();
+    map.appendChild(placeError);
+    setTimeout(()=>{
+    placeError.remove();
+  }, ALERT_SHOW_TIME);
 
-  return adForms;
-};
-export{getAds};
+   }
+export{onSuccess, onError};
+
+
