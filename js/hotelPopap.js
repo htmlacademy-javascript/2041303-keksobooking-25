@@ -9,24 +9,24 @@ const checkFillingText = function(...checkElemrnt){
   });
 };
 const checkFeatures = function(checkElemrnt){
-  if(checkElemrnt.children.length === 0 ){
+  if(checkElemrnt.children.length === 0 ) {
     checkElemrnt.classList.add('hidden');
   }
 };
 
 const checkPhotos = function(checkElemrnt){
   const elementColection = checkElemrnt.children;
-  for(const element of elementColection){
+  for(const element of elementColection) {
     if(element.src === document.location.href ||
-    element.src === null ){
+    element.src === null ) {
       element.classList.add('hidden');
     }
   }
 };
 
 function getAdForm(successObject){
-  const ArrayAd = successObject;
-  const {author, offer, location}=  ArrayAd;
+  const arrayAd = successObject;
+  const {author, offer, location}=  arrayAd;
   const formForMapMarker = [];
   const cloneForm = card.cloneNode(true);
   const headline = cloneForm.querySelector('.popup__title');
@@ -89,11 +89,13 @@ function getAdForm(successObject){
 function onSuccess (data){
   const adForms = [];
   for(const element of data){
-    adForms.push(getAdForm(element));
+    adForms.push( getAdForm(element) );
   }
+  console.log(adForms)
   return adForms;
-}
+};
 function onError(err){
+  console.log(err)
   const ALERT_SHOW_TIME = 10000;
   const map = document.querySelector('.map__canvas');
   const placeError = document.createElement('div');

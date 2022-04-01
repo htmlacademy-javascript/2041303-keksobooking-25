@@ -3,7 +3,7 @@ import { getMapMarker } from './addMap.js';
 import {getSubmit} from './api.js';
 const success = document.querySelector('#success').content;
 const error = document.querySelector('#error').content;
-const placeMassage = document.querySelector('body');
+const placeMessage = document.querySelector('body');
 const form = document.querySelector('.ad-form');
 const formFilter = document.querySelector('.map__filters');
 const reset = form.querySelector('.ad-form__reset');
@@ -74,14 +74,14 @@ function getValidateCapacity(){
   return roomOptions[roomNumber.value].includes(capacity.value);
 }
 
-function getCapacityErrorMassage (){
+function getCapacityErrorMessage (){
   return capacityErrorMassageOptions[roomNumber.value];
 }
 
 pristine.addValidator(
   capacity,
   getValidateCapacity,
-  getCapacityErrorMassage
+  getCapacityErrorMessage
 );
 
 roomNumber.addEventListener('change', ()=>{
@@ -100,44 +100,54 @@ time.addEventListener('change', (evt)=>{
   form.querySelector('#timeout').value=actual;
 });
 
-buttonSubmit.disabled=true;
-window.onload=buttonSubmit.disabled=false;
-addSlider(slaider, price,typeHousOptions, typeHous);
+const getActiveButton = () => {
+  buttonSubmit.disabled=true;
+  window.addEventListener('load',() => {
+    buttonSubmit.disabled=false;
+  });
+};
+getActiveButton();
 
-function onSaccessSubmit(cb){
+addSlider(slaider, price, typeHousOptions, typeHous, form);
+
+function onSuccessSubmit (cb) {
+  buttonSubmit.disabled=true;
   const successClone = success.cloneNode(true);
-  const successMassage = successClone.querySelector('.success');
-  placeMassage.appendChild(successMassage);
-  cb(successMassage,successMassage);
+  const successMessage = successClone.querySelector('.success');
+  placeMessage.appendChild(successMessage);
+  cb(successMessage);
   form.reset();
   formFilter.reset();
-  price.value= 1000;
   getMapMarker();
 }
-function onRemoveMassage (place){
+function removeMessege (place) {
+  buttonSubmit.disabled=false;
+  place.remove();
+  document.removeEventListener('keydown', onRemoveMessage);
+}
+function onRemoveMessage (place) {
   place.addEventListener('click', ()=>{
-    place.remove();
-    document.removeEventListener('keydown', onRemoveMassage);
+    removeMessege (place)
   });
   const button = place.querySelector('button');
   if(button!== null){
     button.addEventListener('click', ()=>{
-      place.remove();
-      document.removeEventListener('keydown', onRemoveMassage);
-    });}
+      removeMessege (place)
+    });
+  }
   document.addEventListener('keydown', (evt)=>{
     if(evt.key==='Escape'){
       evt.preventDefault();
-      place.remove();
-      document.removeEventListener('keydown', onRemoveMassage);
+      removeMessege (place)
     }
   });
 }
+
 function onErrorSubmite (err, cb){
   const errorClone = error.cloneNode(true);
-  const errorMassage = errorClone.querySelector('.error');
-  placeMassage.appendChild(errorMassage);
-  cb(errorMassage);
+  const errorMessage = errorClone.querySelector('.error');
+  placeMessage.appendChild(errorMessage);
+  cb(errorMessage);
 }
 reset.addEventListener('click', (evt)=>{
   evt.preventDefault();
@@ -146,5 +156,12 @@ reset.addEventListener('click', (evt)=>{
   price.value= 1000;
   getMapMarker();
 });
-getSubmit(onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine);
-export{onRemoveMassage};
+form.addEventListener('submit', (evt)=>{
+  evt.preventDefault();
+  const isValid = pristine.validate();
+  if (isValid){
+    const formData = new FormData(evt.target);
+    getSubmit(onSuccessSubmit,onErrorSubmite, formData);
+  }
+});
+export{onRemoveMessage};

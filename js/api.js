@@ -1,5 +1,5 @@
-import {onRemoveMassage} from'./formValidation.js';
-const getData = (onSuccess, onError)=>fetch(
+import {onRemoveMessage} from'./formValidation.js';
+const getData = (onSuccess, onError)=>{fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {
     method:'GET',
@@ -13,19 +13,17 @@ const getData = (onSuccess, onError)=>fetch(
     throw new Error(`${response.status} ${response.statusText}`);
   }
   )
-  .then((data)=>onSuccess(data))
+  .then((data)=> {
+    onSuccess(data);
+    console.log(data);
+  })
   .catch((err)=>{
     onError(err);
   });
+};
 
-const getSubmit = (onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine)=>{
-  form.addEventListener('submit', (evt)=>{
-    evt.preventDefault();
-    buttonSubmit.disabled=true;
-    const isValid = pristine.validate();
-    if (isValid){
-      const formData = new FormData(evt.target);
-      fetch(
+const getSubmit = (onSuccessSubmit, onErrorSubmite, formData)=>{
+    fetch(
         'https://25.javascript.pages.academy/keksobooking',
         {
           method:'POST',
@@ -33,13 +31,11 @@ const getSubmit = (onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine)
         }
       )
         .then(()=>{
-          onSaccessSubmit(onRemoveMassage);
+          onSuccessSubmit(onRemoveMessage);
         })
         .catch((err)=>{
-          onErrorSubmite(err,onRemoveMassage);
+          onErrorSubmite(err,onRemoveMessage);
 
         });
-    }
-  });
 };
 export{getData, getSubmit};
