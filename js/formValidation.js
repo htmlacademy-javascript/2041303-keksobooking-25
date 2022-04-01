@@ -127,18 +127,18 @@ function removeMessege (place) {
 }
 function onRemoveMessage (place) {
   place.addEventListener('click', ()=>{
-    removeMessege (place)
+    removeMessege (place);
   });
   const button = place.querySelector('button');
   if(button!== null){
     button.addEventListener('click', ()=>{
-      removeMessege (place)
+      removeMessege (place);
     });
   }
   document.addEventListener('keydown', (evt)=>{
     if(evt.key==='Escape'){
       evt.preventDefault();
-      removeMessege (place)
+      removeMessege (place);
     }
   });
 }

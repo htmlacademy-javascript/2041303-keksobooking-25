@@ -91,11 +91,9 @@ function onSuccess (data){
   for(const element of data){
     adForms.push( getAdForm(element) );
   }
-  console.log(adForms)
   return adForms;
-};
+}
 function onError(err){
-  console.log(err)
   const ALERT_SHOW_TIME = 10000;
   const map = document.querySelector('.map__canvas');
   const placeError = document.createElement('div');

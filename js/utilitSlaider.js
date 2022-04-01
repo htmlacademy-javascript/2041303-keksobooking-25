@@ -16,15 +16,15 @@ const addSlider = (createSliderElement, price,typeHousOptions, typeHous, form)=>
       },
     },
   });
-form.addEventListener('submit', ()=>{
-  createSliderElement.noUiSlider.updateOptions({
-    range: {
-      min: typeHousOptions[typeHous.value],
-      max: 100000
-    },
-    start: typeHousOptions[typeHous.value],
+  form.addEventListener('submit', ()=>{
+    createSliderElement.noUiSlider.updateOptions({
+      range: {
+        min: typeHousOptions[typeHous.value],
+        max: 100000
+      },
+      start: typeHousOptions[typeHous.value],
+    });
   });
-});
   typeHous.addEventListener('change', ()=>{
     createSliderElement.noUiSlider.updateOptions({
       range: {

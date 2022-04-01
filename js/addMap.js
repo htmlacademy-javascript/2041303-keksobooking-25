@@ -2,8 +2,7 @@ import {getActive, getDisabled} from './switchingModes.js';
 import {getData} from './api.js';
 import {onSuccess, onError}from './hotelPopap.js';
 getDisabled( );
-const arrayElements = Promise.resolve(getData(onSuccess, onError));
-console.log(arrayElements)
+const arrayElements = Promise.resolve( getData( onSuccess, onError) );
 const address = document.querySelector('#address');
 const map = L.map('map-canvas')
   .setView({
