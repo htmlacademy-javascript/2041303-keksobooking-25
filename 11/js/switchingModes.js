@@ -32,5 +32,5 @@ const getDisabledFilter = ()=>{
   for(const elem of mapFilterFieldsetList){
     elem.disabled=true;
   }
-}
+};
 export{getActive, getDisabled, getDisabledFilter};

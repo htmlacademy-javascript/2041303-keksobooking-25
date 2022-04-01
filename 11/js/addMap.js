@@ -2,7 +2,7 @@ import {getActive, getDisabled} from './switchingModes.js';
 import { getData } from './api.js';
 import {onSuccess, onError}from './hotelPopap.js';
 getDisabled( );
-const arrayElements = Promise.resolve(getData(onSuccess, onError))
+const arrayElements = Promise.resolve(getData(onSuccess, onError));
 const address = document.querySelector('#address');
 const map = L.map('map-canvas')
   .setView({
@@ -46,7 +46,7 @@ function getMapMarker (){
   mainMarker.setLatLng({
     lat: 35.69410994928452,
     lng: 139.75982666015628,
-  })
+  });
   map.setView({
     lat: 35.69410994928452,
     lng: 139.75982666015628
@@ -56,8 +56,8 @@ function getMapMarker (){
     for(let i = 0; i< array.length;i++ ){
       const marker = L.marker(
         {
-        lat: array[i][0].lat,
-        lng: array[i][0].lng,
+          lat: array[i][0].lat,
+          lng: array[i][0].lng,
         },
         {
           icon: adIcon,
@@ -66,10 +66,10 @@ function getMapMarker (){
       marker.addTo(markerGroup)
         .bindPopup(array[i][1]);
     }
-  })
-}
-  getMapMarker()
-mainMarker.on('moveend', (evt)=>{
-    address.value = `Lat ${evt.target.getLatLng().lat.toFixed(5)}  Lng ${evt.target.getLatLng().lng.toFixed(5)}`;
   });
+}
+getMapMarker();
+mainMarker.on('moveend', (evt)=>{
+  address.value = `Lat ${evt.target.getLatLng().lat.toFixed(5)}  Lng ${evt.target.getLatLng().lng.toFixed(5)}`;
+});
 export{getMapMarker};

@@ -3,10 +3,10 @@ import { getMapMarker } from './addMap.js';
 import {getSubmit} from './api.js';
 const success = document.querySelector('#success').content;
 const error = document.querySelector('#error').content;
-const placeMassage = document.querySelector("body");
+const placeMassage = document.querySelector('body');
 const form = document.querySelector('.ad-form');
 const formFilter = document.querySelector('.map__filters');
-const reset = form.querySelector('.ad-form__reset')
+const reset = form.querySelector('.ad-form__reset');
 const title = form.querySelector('#title');
 const typeHousOptions = {
   'bungalow': 0,
@@ -112,29 +112,28 @@ function onSaccessSubmit(cb){
   form.reset();
   formFilter.reset();
   price.value= 1000;
-  getMapMarker()
- }
+  getMapMarker();
+}
 function onRemoveMassage (place){
   place.addEventListener('click', ()=>{
     place.remove();
     document.removeEventListener('keydown', onRemoveMassage);
-  })
-  const button = place.querySelector('button')
+  });
+  const button = place.querySelector('button');
   if(button!== null){
-  button.addEventListener('click', ()=>{
-    place.remove();
-  document.removeEventListener('keydown', onRemoveMassage);
-  })}
+    button.addEventListener('click', ()=>{
+      place.remove();
+      document.removeEventListener('keydown', onRemoveMassage);
+    });}
   document.addEventListener('keydown', (evt)=>{
     if(evt.key==='Escape'){
       evt.preventDefault();
       place.remove();
       document.removeEventListener('keydown', onRemoveMassage);
-     }
-    })
+    }
+  });
 }
 function onErrorSubmite (err, cb){
-console.log(err)
   const errorClone = error.cloneNode(true);
   const errorMassage = errorClone.querySelector('.error');
   placeMassage.appendChild(errorMassage);
@@ -145,7 +144,7 @@ reset.addEventListener('click', (evt)=>{
   form.reset();
   formFilter.reset();
   price.value= 1000;
-  getMapMarker()
-})
-getSubmit(onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine)
+  getMapMarker();
+});
+getSubmit(onSaccessSubmit, onErrorSubmite, form, buttonSubmit,pristine);
 export{onRemoveMassage};
