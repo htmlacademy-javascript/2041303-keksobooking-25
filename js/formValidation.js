@@ -1,6 +1,6 @@
 import { addSlider } from './utilitSlaider.js';
 import { getMapMarker } from './addMap.js';
-import {getSubmit} from './api.js';
+import { getSubmit } from './api.js';
 const success = document.querySelector('#success').content;
 const error = document.querySelector('#error').content;
 const placeMessage = document.querySelector('body');
@@ -45,7 +45,7 @@ const pristine = new Pristine(form, {
 });
 
 function getValidationTitle (value) {
-  return value.length >=30 && value.length <= 100;
+  return value.length >= 30 && value.length <= 100;
 }
 
 pristine.addValidator(
@@ -59,22 +59,22 @@ function getValidationPrice (value) {
   if( value === undefined ){
     return false;
   }
-  return value>= typeHousOptions[typeHous.value] && value<= 100000;
+  return value >= typeHousOptions[typeHous.value] && value <= 100000;
 }
 function getPriceErrorMassage () {
   return `От ${typeHousOptions[typeHous.value]} до 100000`;
 }
-pristine.addValidator(
+pristine.addValidator (
   price,
   getValidationPrice,
   getPriceErrorMassage,
 );
 
-function getValidateCapacity (){
+function getValidateCapacity () {
   return roomOptions[roomNumber.value].includes(capacity.value);
 }
 
-function getCapacityErrorMessage (){
+function getCapacityErrorMessage () {
   return capacityErrorMassageOptions[roomNumber.value];
 }
 
@@ -84,17 +84,17 @@ pristine.addValidator(
   getCapacityErrorMessage
 );
 
-roomNumber.addEventListener('change', ()=>{
+roomNumber.addEventListener('change', () => {
   getValidateCapacity();
   pristine.validate(capacity);
 });
 
-typeHous.addEventListener('change', ()=>{
+typeHous.addEventListener('change', () => {
   getValidationPrice ();
   pristine.validate (price);
 });
 
-time.addEventListener ('change', (evt)=>{
+time.addEventListener ('change', (evt) => {
   const actual = evt.target.value;
   form.querySelector('#timein').value=actual;
   form.querySelector('#timeout').value=actual;
@@ -103,14 +103,14 @@ time.addEventListener ('change', (evt)=>{
 const getActiveButton = () => {
   buttonSubmit.disabled=true;
   window.addEventListener ('load',() => {
-    buttonSubmit.disabled=false;
+    buttonSubmit.disabled = false;
   });
 };
 getActiveButton ();
 
 addSlider (slaider, price, typeHousOptions, typeHous, form);
 
-function onSuccessSubmit (cb) {
+const onSuccessSubmit = (cb) => {
   buttonSubmit.disabled=true;
   const successClone = success.cloneNode (true);
   const successMessage = successClone.querySelector ('.success');
@@ -119,12 +119,13 @@ function onSuccessSubmit (cb) {
   form.reset ();
   formFilter.reset ();
   getMapMarker ();
-}
-function removeMessege (place) {
-  buttonSubmit.disabled=false;
+};
+const removeMessege = (place) => {
+  buttonSubmit.disabled = false;
   place.remove();
   document.removeEventListener('keydown', onRemoveMessage);
-}
+};
+
 function onRemoveMessage (place) {
   place.addEventListener ('click', ()=>{
     removeMessege (place);
@@ -143,20 +144,20 @@ function onRemoveMessage (place) {
   });
 }
 
-function onErrorSubmite ( err, cb ) {
+const onErrorSubmite = ( cb ) => {
   const errorClone = error.cloneNode (true);
   const errorMessage = errorClone.querySelector ('.error');
   placeMessage.appendChild (errorMessage);
   cb (errorMessage);
-}
-reset.addEventListener ('click', (evt)=>{
+};
+reset.addEventListener ('click', (evt) => {
   evt.preventDefault ();
   form.reset ();
   formFilter.reset ();
   price.value = 1000;
   getMapMarker ();
 });
-form.addEventListener('submit', (evt)=>{
+form.addEventListener('submit', (evt) => {
   evt.preventDefault ();
   const isValid = pristine.validate ();
   if (isValid){
