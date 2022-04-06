@@ -1,5 +1,6 @@
 import { addSlider } from './utilitSlaider.js';
 import { getMapMarker } from './addMap.js';
+import './avatar.js';
 import { getSubmit } from './api.js';
 const success = document.querySelector('#success').content;
 const error = document.querySelector('#error').content;
