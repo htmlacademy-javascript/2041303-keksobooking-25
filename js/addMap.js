@@ -3,7 +3,7 @@ import {getData} from './api.js';
 import {onSuccess, onError}from './hotelPopap.js';
 import {changeMapFilter}from './mapFilter.js';
 getDisabled ( );
-const arrayElements = Promise.resolve( getData( onSuccess, onError) );
+const arrayElements = Promise.resolve(getData( onSuccess, onError));
 const address = document.querySelector('#address');
 
 const map = L.map('map-canvas')
@@ -46,8 +46,8 @@ map.addEventListener('load', getActive());
 mainMarker.addTo(map);
 address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
 
-const getMapMarker = ( arrayElement ) => {
-  markerGroup.clearLayers ();
+const getMapMarker = (arrayElement)=>{
+  markerGroup.clearLayers();
   mainMarker.setLatLng({
     lat: 35.69410994928452,
     lng: 139.75982666015628,
@@ -57,27 +57,27 @@ const getMapMarker = ( arrayElement ) => {
     lng: 139.75982666015628
   }, 10);
   address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
-  arrayElement.then( (array) => {
-    const mapMarkerArray = array.slice ( 0, 10 );
+  arrayElement.then( (array)=>{
+    const mapMarkerArray = array.slice( 0, 10 );
     for(let i = 0; i < mapMarkerArray.length; i++ ) {
       const marker = L.marker(
         {
-          lat: mapMarkerArray [i] [0].lat,
-          lng: mapMarkerArray [i] [0].lng,
+          lat: mapMarkerArray [i][0].lat,
+          lng: mapMarkerArray [i][0].lng,
         },
         {
           icon: adIcon,
         },
       );
-      marker.addTo ( markerGroup )
-        .bindPopup ( mapMarkerArray [i] [1] );
+      marker.addTo (markerGroup)
+        .bindPopup (mapMarkerArray[i][1]);
     }
   });
 };
 getMapMarker (arrayElements);
-mainMarker.on( 'moveend', (evt) => {
+mainMarker.on( 'moveend', (evt)=>{
   address.value = `Lat ${evt.target.getLatLng().lat.toFixed(5)}  Lng ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
-changeMapFilter( getMapMarker, arrayElements );
+changeMapFilter(getMapMarker, arrayElements);
 
 export{getMapMarker};

@@ -7,10 +7,10 @@ const typeHouseObjekt = {
   bungalow:'Бунгало',
   hotel:'Отель'
 };
-function getfilterSelectedText ( selected ){
+function getfilterSelectedText (selected){
   return typeHouseObjekt [selected.value];
 }
-const checkFillingText = (...checkElemrnt) => {
+const checkFillingText = (...checkElemrnt)=>{
   checkElemrnt.forEach((element)=>{
     if(element.textContent.length === 0){
       element.classList.add('hidden');
@@ -18,25 +18,25 @@ const checkFillingText = (...checkElemrnt) => {
   });
 };
 
-const checkFeatures = (checkElemrnt) => {
-  if(checkElemrnt.children.length === 0 ) {
+const checkFeatures = (checkElemrnt)=>{
+  if(checkElemrnt.children.length === 0 ){
     checkElemrnt.classList.add('hidden');
   }
 };
 
-const checkPhotos = (checkElemrnt) => {
+const checkPhotos = (checkElemrnt)=>{
   const elementColection = checkElemrnt.children;
   for(const element of elementColection) {
-    if(element.src === document.location.href ||
+    if( element.src === document.location.href ||
     element.src === null ) {
       element.classList.add('hidden');
     }
   }
 };
 
-const getAdForm = (successObject) => {
+const getAdForm = (successObject)=>{
   const arrayAd = successObject;
-  const {author, offer, location}=  arrayAd;
+  const {author, offer, location} = arrayAd;
   const formForMapMarker = [];
   const cloneForm = card.cloneNode(true);
   const headline = cloneForm.querySelector('.popup__title');
@@ -59,25 +59,24 @@ const getAdForm = (successObject) => {
   roomAndGuests.textContent= `${offer.rooms} комнаты для ${offer.guests} гостей`;
   checkinCheckout.textContent=`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
   if(offer.features!==undefined){
-    featuresList.forEach((featuresListItem) => {
-      for( const element of offer.features)
-      {
+    featuresList.forEach((featuresListItem)=>{
+      for( const element of offer.features ) {
         if ( featuresListItem.classList[1] === (`popup__feature--${element}`) ) {
           arrFeatures.push(featuresListItem);
         }}
     });
   }
-  for(const elem of featuresList){
+  for( const elem of featuresList ) {
     elem.remove();
   }
-  for(const elem of arrFeatures){
+  for( const elem of arrFeatures ) {
     features.appendChild(elem);
   }
   description.textContent = offer.description;
-  if(offer.photos!==undefined){
+  if( offer.photos !== undefined ) {
     offer.photos.forEach((element)=>{
       const newFoto = photo.cloneNode(false);
-      newFoto.src=element;
+      newFoto.src = element;
       photos.appendChild(newFoto);
     });
   }
@@ -91,15 +90,15 @@ const getAdForm = (successObject) => {
   return formForMapMarker;
 };
 
-const onSuccess = (data) => {
+const onSuccess = (data)=>{
   const adForms = [];
-  for(const element of data){
-    adForms.push( getAdForm(element) );
+  for( const element of data ) {
+    adForms.push(getAdForm(element) );
   }
   return adForms;
 };
 
-const onError = (err) => {
+const onError = (err)=>{
   const ALERT_SHOW_TIME = 10000;
   const map = document.querySelector('.map__canvas');
   const placeError = document.createElement('div');
@@ -119,7 +118,7 @@ const onError = (err) => {
   placeError.textContent=`Произошла ошибка загрузки маркеров ${err}`;
   getDisabledFilter();
   map.appendChild(placeError);
-  setTimeout(() => {
+  setTimeout(()=>{
     placeError.remove();
   }, ALERT_SHOW_TIME);
 
