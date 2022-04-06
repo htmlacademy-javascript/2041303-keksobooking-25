@@ -46,7 +46,7 @@ map.addEventListener('load', getActive());
 mainMarker.addTo(map);
 address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
 
-const getMapMarker = (arrayElement)=>{
+const getMapMarker = (arrayElement) => {
   markerGroup.clearLayers();
   mainMarker.setLatLng({
     lat: 35.69410994928452,
@@ -57,7 +57,7 @@ const getMapMarker = (arrayElement)=>{
     lng: 139.75982666015628
   }, 10);
   address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
-  arrayElement.then( (array)=>{
+  arrayElement.then( (array) => {
     const mapMarkerArray = array.slice( 0, 10 );
     for(let i = 0; i < mapMarkerArray.length; i++ ) {
       const marker = L.marker(
@@ -75,7 +75,7 @@ const getMapMarker = (arrayElement)=>{
   });
 };
 getMapMarker (arrayElements);
-mainMarker.on( 'moveend', (evt)=>{
+mainMarker.on( 'moveend', (evt) => {
   address.value = `Lat ${evt.target.getLatLng().lat.toFixed(5)}  Lng ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
 changeMapFilter(getMapMarker, arrayElements);

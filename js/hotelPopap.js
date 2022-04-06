@@ -7,24 +7,24 @@ const typeHouseObjekt = {
   bungalow:'Бунгало',
   hotel:'Отель'
 };
-function getfilterSelectedText (selected){
+function getfilterSelectedText (selected) {
   return typeHouseObjekt [selected.value];
 }
-const checkFillingText = (...checkElemrnt)=>{
-  checkElemrnt.forEach((element)=>{
-    if(element.textContent.length === 0){
+const checkFillingText = (...checkElemrnt) => {
+  checkElemrnt.forEach((element) => {
+    if( element.textContent.length === 0 ) {
       element.classList.add('hidden');
     }
   });
 };
 
-const checkFeatures = (checkElemrnt)=>{
-  if(checkElemrnt.children.length === 0 ){
+const checkFeatures = (checkElemrnt) => {
+  if( checkElemrnt.children.length === 0 ) {
     checkElemrnt.classList.add('hidden');
   }
 };
 
-const checkPhotos = (checkElemrnt)=>{
+const checkPhotos = (checkElemrnt) => {
   const elementColection = checkElemrnt.children;
   for(const element of elementColection) {
     if( element.src === document.location.href ||
@@ -34,7 +34,7 @@ const checkPhotos = (checkElemrnt)=>{
   }
 };
 
-const getAdForm = (successObject)=>{
+const getAdForm = (successObject) => {
   const arrayAd = successObject;
   const {author, offer, location} = arrayAd;
   const formForMapMarker = [];
@@ -58,8 +58,8 @@ const getAdForm = (successObject)=>{
   housing.textContent=typeHouseObjekt[offer.type];
   roomAndGuests.textContent= `${offer.rooms} комнаты для ${offer.guests} гостей`;
   checkinCheckout.textContent=`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  if(offer.features!==undefined){
-    featuresList.forEach((featuresListItem)=>{
+  if( offer.features!==undefined ) {
+    featuresList.forEach((featuresListItem) => {
       for( const element of offer.features ) {
         if ( featuresListItem.classList[1] === (`popup__feature--${element}`) ) {
           arrFeatures.push(featuresListItem);
@@ -74,7 +74,7 @@ const getAdForm = (successObject)=>{
   }
   description.textContent = offer.description;
   if( offer.photos !== undefined ) {
-    offer.photos.forEach((element)=>{
+    offer.photos.forEach((element) => {
       const newFoto = photo.cloneNode(false);
       newFoto.src = element;
       photos.appendChild(newFoto);
@@ -90,7 +90,7 @@ const getAdForm = (successObject)=>{
   return formForMapMarker;
 };
 
-const onSuccess = (data)=>{
+const onSuccess = (data) => {
   const adForms = [];
   for( const element of data ) {
     adForms.push(getAdForm(element) );
@@ -98,7 +98,7 @@ const onSuccess = (data)=>{
   return adForms;
 };
 
-const onError = (err)=>{
+const onError = (err) => {
   const ALERT_SHOW_TIME = 10000;
   const map = document.querySelector('.map__canvas');
   const placeError = document.createElement('div');
@@ -118,7 +118,7 @@ const onError = (err)=>{
   placeError.textContent=`Произошла ошибка загрузки маркеров ${err}`;
   getDisabledFilter();
   map.appendChild(placeError);
-  setTimeout(()=>{
+  setTimeout(() => {
     placeError.remove();
   }, ALERT_SHOW_TIME);
 

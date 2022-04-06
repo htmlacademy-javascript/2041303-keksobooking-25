@@ -45,7 +45,7 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error',
 });
 
-function getValidationTitle (value){
+function getValidationTitle (value) {
   return value.length >= 30 && value.length <= 100;
 }
 
@@ -56,13 +56,13 @@ pristine.addValidator(
 );
 
 
-function getValidationPrice (value){
-  if( value === undefined ){
+function getValidationPrice (value) {
+  if( value === undefined ) {
     return false;
   }
   return value >= typeHousOptions[typeHous.value] && value <= 100000;
 }
-function getPriceErrorMassage (){
+function getPriceErrorMassage() {
   return `От ${typeHousOptions[typeHous.value]} до 100000`;
 }
 pristine.addValidator(
@@ -71,11 +71,11 @@ pristine.addValidator(
   getPriceErrorMassage,
 );
 
-function getValidateCapacity (){
+function getValidateCapacity() {
   return roomOptions[roomNumber.value].includes(capacity.value);
 }
 
-function getCapacityErrorMessage (){
+function getCapacityErrorMessage() {
   return capacityErrorMassageOptions[roomNumber.value];
 }
 
@@ -85,25 +85,25 @@ pristine.addValidator(
   getCapacityErrorMessage
 );
 
-roomNumber.addEventListener('change', ()=>{
+roomNumber.addEventListener('change', () => {
   getValidateCapacity();
   pristine.validate(capacity);
 });
 
-typeHous.addEventListener('change', ()=>{
-  getValidationPrice ();
+typeHous.addEventListener('change', () => {
+  getValidationPrice();
   pristine.validate (price);
 });
 
-time.addEventListener ('change', (evt)=>{
+time.addEventListener ('change', (evt) => {
   const actual = evt.target.value;
-  form.querySelector('#timein').value=actual;
-  form.querySelector('#timeout').value=actual;
+  form.querySelector('#timein').value = actual;
+  form.querySelector('#timeout').value = actual;
 });
 
-const getActiveButton = ()=>{
+const getActiveButton = () => {
   buttonSubmit.disabled=true;
-  window.addEventListener ('load',()=>{
+  window.addEventListener ('load', () => {
     buttonSubmit.disabled = false;
   });
 };
@@ -111,59 +111,59 @@ getActiveButton ();
 
 addSlider (slaider, price, typeHousOptions, typeHous, form);
 
-const onSuccessSubmit = (cb)=>{
+const onSuccessSubmit = (cb) => {
   buttonSubmit.disabled=true;
   const successClone = success.cloneNode (true);
   const successMessage = successClone.querySelector ('.success');
-  placeMessage.appendChild (successMessage);
+  placeMessage.appendChild(successMessage);
   cb (successMessage);
-  form.reset ();
-  formFilter.reset ();
-  getMapMarker ();
+  form.reset();
+  formFilter.reset();
+  getMapMarker();
 };
-const removeMessege = (place)=>{
+const removeMessege = (place) => {
   buttonSubmit.disabled = false;
   place.remove();
   document.removeEventListener('keydown', onRemoveMessage);
 };
 
 function onRemoveMessage (place){
-  place.addEventListener ('click', ()=>{
+  place.addEventListener ('click', () => {
     removeMessege (place);
   });
   const button = place.querySelector ('button');
   if(button!== null){
-    button.addEventListener ('click', ()=>{
+    button.addEventListener ('click', () => {
       removeMessege (place);
     });
   }
-  document.addEventListener ('keydown', (evt)=>{
-    if ( evt.key === 'Escape' ){
-      evt.preventDefault ();
+  document.addEventListener ('keydown', (evt) => {
+    if ( evt.key === 'Escape' ) {
+      evt.preventDefault();
       removeMessege (place);
     }
   });
 }
 
-const onErrorSubmite = (cb)=>{
+const onErrorSubmite = (cb) => {
   const errorClone = error.cloneNode (true);
   const errorMessage = errorClone.querySelector ('.error');
   placeMessage.appendChild (errorMessage);
   cb (errorMessage);
 };
-reset.addEventListener ('click', (evt)=>{
-  evt.preventDefault ();
-  form.reset ();
-  formFilter.reset ();
+reset.addEventListener ('click', (evt) => {
+  evt.preventDefault();
+  form.reset();
+  formFilter.reset();
   price.value = 1000;
-  getMapMarker ();
+  getMapMarker();
 });
-form.addEventListener('submit', (evt)=>{
-  evt.preventDefault ();
-  const isValid = pristine.validate ();
+form.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const isValid = pristine.validate();
   if (isValid){
-    const formData = new FormData (evt.target);
+    const formData = new FormData(evt.target);
     getSubmit(onSuccessSubmit, onErrorSubmite, formData);
   }
 });
-export{ onRemoveMessage };
+export{onRemoveMessage};
