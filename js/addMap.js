@@ -1,9 +1,11 @@
 import {getActive, getDisabled} from './switchingModes.js';
 import {getData} from './api.js';
 import {onSuccess, onError}from './hotelPopap.js';
-getDisabled( );
+import {changeMapFilter}from './mapFilter.js';
+getDisabled ( );
 const arrayElements = Promise.resolve( getData( onSuccess, onError) );
 const address = document.querySelector('#address');
+
 const map = L.map('map-canvas')
   .setView({
     lat: 35.69410994928452,
@@ -39,10 +41,13 @@ const mainMarker = L.marker(
   },
 );
 const markerGroup = L.layerGroup().addTo(map);
+
 map.addEventListener('load', getActive());
 mainMarker.addTo(map);
 address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
-function getMapMarker (){
+
+const getMapMarker = ( arrayElement ) => {
+  markerGroup.clearLayers ();
   mainMarker.setLatLng({
     lat: 35.69410994928452,
     lng: 139.75982666015628,
@@ -52,24 +57,27 @@ function getMapMarker (){
     lng: 139.75982666015628
   }, 10);
   address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
-  arrayElements.then((array)=>{
-    for(let i = 0; i < array.length; i++ ) {
+  arrayElement.then( (array) => {
+    const mapMarkerArray = array.slice ( 0, 10 );
+    for(let i = 0; i < mapMarkerArray.length; i++ ) {
       const marker = L.marker(
         {
-          lat: array[i][0].lat,
-          lng: array[i][0].lng,
+          lat: mapMarkerArray [i] [0].lat,
+          lng: mapMarkerArray [i] [0].lng,
         },
         {
           icon: adIcon,
         },
       );
-      marker.addTo(markerGroup)
-        .bindPopup(array[i][1]);
+      marker.addTo ( markerGroup )
+        .bindPopup ( mapMarkerArray [i] [1] );
     }
   });
-}
-getMapMarker();
-mainMarker.on('moveend', (evt)=>{
+};
+getMapMarker (arrayElements);
+mainMarker.on( 'moveend', (evt) => {
   address.value = `Lat ${evt.target.getLatLng().lat.toFixed(5)}  Lng ${evt.target.getLatLng().lng.toFixed(5)}`;
 });
+changeMapFilter( getMapMarker, arrayElements );
+
 export{getMapMarker};

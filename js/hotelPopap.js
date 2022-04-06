@@ -1,20 +1,30 @@
 import {getDisabledFilter} from './switchingModes.js';
 const card = document.querySelector('#card').content;
-
-const checkFillingText = function(...checkElemrnt){
+const typeHouseObjekt = {
+  palace:'Дворец',
+  flat:'Квартира',
+  house:'Дом',
+  bungalow:'Бунгало',
+  hotel:'Отель'
+};
+function getfilterSelectedText ( selected ){
+  return typeHouseObjekt [selected.value];
+}
+const checkFillingText = (...checkElemrnt) => {
   checkElemrnt.forEach((element)=>{
     if(element.textContent.length === 0){
       element.classList.add('hidden');
     }
   });
 };
-const checkFeatures = function(checkElemrnt){
+
+const checkFeatures = (checkElemrnt) => {
   if(checkElemrnt.children.length === 0 ) {
     checkElemrnt.classList.add('hidden');
   }
 };
 
-const checkPhotos = function(checkElemrnt){
+const checkPhotos = (checkElemrnt) => {
   const elementColection = checkElemrnt.children;
   for(const element of elementColection) {
     if(element.src === document.location.href ||
@@ -24,7 +34,7 @@ const checkPhotos = function(checkElemrnt){
   }
 };
 
-function getAdForm(successObject){
+const getAdForm = (successObject) => {
   const arrayAd = successObject;
   const {author, offer, location}=  arrayAd;
   const formForMapMarker = [];
@@ -32,13 +42,6 @@ function getAdForm(successObject){
   const headline = cloneForm.querySelector('.popup__title');
   const address = cloneForm.querySelector('.popup__text--address');
   const price = cloneForm.querySelector('.popup__text--price');
-  const typeHouseObjekt = {
-    palace:'Дворец',
-    flat:'Квартира',
-    house:'Дом',
-    bungalow:'Бунгало',
-    hotel:'Отель'
-  };
   const housing = cloneForm.querySelector('.popup__type');
   const roomAndGuests = cloneForm.querySelector('.popup__text--capacity');
   const checkinCheckout = cloneForm.querySelector('.popup__text--time');
@@ -58,9 +61,10 @@ function getAdForm(successObject){
   if(offer.features!==undefined){
     featuresList.forEach((featuresListItem) => {
       for( const element of offer.features)
-      {if (featuresListItem.classList[1]===(`popup__feature--${element}`)){
-        arrFeatures.push(featuresListItem);
-      }}
+      {
+        if ( featuresListItem.classList[1] === (`popup__feature--${element}`) ) {
+          arrFeatures.push(featuresListItem);
+        }}
     });
   }
   for(const elem of featuresList){
@@ -85,15 +89,17 @@ function getAdForm(successObject){
   formForMapMarker.push(location);
   formForMapMarker.push(cloneForm);
   return formForMapMarker;
-}
-function onSuccess (data){
+};
+
+const onSuccess = (data) => {
   const adForms = [];
   for(const element of data){
     adForms.push( getAdForm(element) );
   }
   return adForms;
-}
-function onError(err){
+};
+
+const onError = (err) => {
   const ALERT_SHOW_TIME = 10000;
   const map = document.querySelector('.map__canvas');
   const placeError = document.createElement('div');
@@ -113,11 +119,12 @@ function onError(err){
   placeError.textContent=`Произошла ошибка загрузки маркеров ${err}`;
   getDisabledFilter();
   map.appendChild(placeError);
-  setTimeout(()=>{
+  setTimeout(() => {
     placeError.remove();
   }, ALERT_SHOW_TIME);
 
-}
-export{onSuccess, onError};
+};
+
+export{onSuccess, onError, getfilterSelectedText};
 
 

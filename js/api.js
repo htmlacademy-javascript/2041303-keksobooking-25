@@ -1,24 +1,24 @@
 import {onRemoveMessage} from'./formValidation.js';
-const getData = (onSuccess, onError)=>fetch(
+const getData = ( onSuccess, onError ) => fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {
     method:'GET',
     credentials: 'same-origin',
   },
 )
-  .then((response)=>{
-    if(response.ok){
+  .then((response) => {
+    if(response.ok) {
       return response.json();
     }
-    throw new Error(`${response.status} ${response.statusText}`);
+    throw new Error (`${response.status} ${response.statusText}`);
   }
   )
-  .then((data)=>onSuccess(data))
-  .catch((err)=>{
+  .then((data) => onSuccess (data))
+  .catch((err) => {
     onError(err);
   });
 
-const getSubmit = (onSuccessSubmit, onErrorSubmite, formData)=>{
+const getSubmit = ( onSuccessSubmit, onErrorSubmite, formData ) => {
   fetch(
     'https://25.javascript.pages.academy/keksobooking',
     {
@@ -26,12 +26,12 @@ const getSubmit = (onSuccessSubmit, onErrorSubmite, formData)=>{
       body: formData,
     }
   )
-    .then(()=>{
-      onSuccessSubmit(onRemoveMessage);
+    .then( () => {
+      onSuccessSubmit ( onRemoveMessage );
     })
-    .catch((err)=>{
-      onErrorSubmite(err,onRemoveMessage);
+    .catch(( )=>{
+      onErrorSubmite ( onRemoveMessage );
 
     });
 };
-export{getData, getSubmit};
+export{ getData, getSubmit };
