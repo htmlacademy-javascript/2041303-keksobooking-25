@@ -7,19 +7,19 @@ const typeHouseObjekt = {
   bungalow:'Бунгало',
   hotel:'Отель'
 };
-function getfilterSelectedText ( selected ){
+function getfilterSelectedText (selected) {
   return typeHouseObjekt [selected.value];
 }
 const checkFillingText = (...checkElemrnt) => {
-  checkElemrnt.forEach((element)=>{
-    if(element.textContent.length === 0){
+  checkElemrnt.forEach((element) => {
+    if( element.textContent.length === 0 ) {
       element.classList.add('hidden');
     }
   });
 };
 
 const checkFeatures = (checkElemrnt) => {
-  if(checkElemrnt.children.length === 0 ) {
+  if( checkElemrnt.children.length === 0 ) {
     checkElemrnt.classList.add('hidden');
   }
 };
@@ -27,7 +27,7 @@ const checkFeatures = (checkElemrnt) => {
 const checkPhotos = (checkElemrnt) => {
   const elementColection = checkElemrnt.children;
   for(const element of elementColection) {
-    if(element.src === document.location.href ||
+    if( element.src === document.location.href ||
     element.src === null ) {
       element.classList.add('hidden');
     }
@@ -36,7 +36,7 @@ const checkPhotos = (checkElemrnt) => {
 
 const getAdForm = (successObject) => {
   const arrayAd = successObject;
-  const {author, offer, location}=  arrayAd;
+  const {author, offer, location} = arrayAd;
   const formForMapMarker = [];
   const cloneForm = card.cloneNode(true);
   const headline = cloneForm.querySelector('.popup__title');
@@ -58,26 +58,25 @@ const getAdForm = (successObject) => {
   housing.textContent=typeHouseObjekt[offer.type];
   roomAndGuests.textContent= `${offer.rooms} комнаты для ${offer.guests} гостей`;
   checkinCheckout.textContent=`Заезд после ${offer.checkin}, выезд до ${offer.checkout}`;
-  if(offer.features!==undefined){
+  if( offer.features!==undefined ) {
     featuresList.forEach((featuresListItem) => {
-      for( const element of offer.features)
-      {
+      for( const element of offer.features ) {
         if ( featuresListItem.classList[1] === (`popup__feature--${element}`) ) {
           arrFeatures.push(featuresListItem);
         }}
     });
   }
-  for(const elem of featuresList){
+  for( const elem of featuresList ) {
     elem.remove();
   }
-  for(const elem of arrFeatures){
+  for( const elem of arrFeatures ) {
     features.appendChild(elem);
   }
   description.textContent = offer.description;
-  if(offer.photos!==undefined){
-    offer.photos.forEach((element)=>{
+  if( offer.photos !== undefined ) {
+    offer.photos.forEach((element) => {
       const newFoto = photo.cloneNode(false);
-      newFoto.src=element;
+      newFoto.src = element;
       photos.appendChild(newFoto);
     });
   }
@@ -93,8 +92,8 @@ const getAdForm = (successObject) => {
 
 const onSuccess = (data) => {
   const adForms = [];
-  for(const element of data){
-    adForms.push( getAdForm(element) );
+  for( const element of data ) {
+    adForms.push(getAdForm(element) );
   }
   return adForms;
 };

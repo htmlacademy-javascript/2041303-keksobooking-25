@@ -1,5 +1,5 @@
 import {onRemoveMessage} from'./formValidation.js';
-const getData = ( onSuccess, onError ) => fetch(
+const getData = (onSuccess, onError) => fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {
     method:'GET',
@@ -13,12 +13,12 @@ const getData = ( onSuccess, onError ) => fetch(
     throw new Error (`${response.status} ${response.statusText}`);
   }
   )
-  .then((data) => onSuccess (data))
+  .then((data) => onSuccess(data))
   .catch((err) => {
     onError(err);
   });
 
-const getSubmit = ( onSuccessSubmit, onErrorSubmite, formData ) => {
+const getSubmit = (onSuccessSubmit, onErrorSubmite, formData) => {
   fetch(
     'https://25.javascript.pages.academy/keksobooking',
     {
@@ -27,11 +27,11 @@ const getSubmit = ( onSuccessSubmit, onErrorSubmite, formData ) => {
     }
   )
     .then( () => {
-      onSuccessSubmit ( onRemoveMessage );
+      onSuccessSubmit(onRemoveMessage);
     })
-    .catch(( )=>{
-      onErrorSubmite ( onRemoveMessage );
+    .catch(( ) => {
+      onErrorSubmite(onRemoveMessage);
 
     });
 };
-export{ getData, getSubmit };
+export{getData, getSubmit};

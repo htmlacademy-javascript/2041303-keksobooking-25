@@ -7,26 +7,26 @@ const guest = formMapFilter.querySelector('#housing-guests');
 const TIME_TIMEOUT_FILTER = 500;
 let timeoutId;
 
-const debounce = ( cb, timeoutDelay ) => {
+const debounce = (cb, timeoutDelay) => {
   clearTimeout(timeoutId);
-  timeoutId = setTimeout( cb, timeoutDelay );
+  timeoutId = setTimeout(cb, timeoutDelay);
 };
-const getNumber = ( string ) => {
+const getNumber = (string) => {
   let array = string.split(' ');
-  array = array.filter( (element) => {
-    if( !isNaN (element) ) {
+  array = array.filter((element) => {
+    if( !isNaN(element) ) {
       return true;
     }
   });
   return array;
 };
-const getMarkerFilter = ( arrayElements ) => {
+const getMarkerFilter = (arrayElements) => {
   const features = formMapFilter.querySelectorAll('input[type="checkbox"]:checked');
   return arrayElements.then((array) => {
     if( housingType.value !== 'any') {
       array = array.filter((element) => {
         const houseElement = element[1].querySelector('.popup__type').textContent;
-        if( houseElement === getfilterSelectedText(housingType) ){
+        if( houseElement === getfilterSelectedText(housingType) ) {
           return true;
         }
       });
@@ -34,8 +34,8 @@ const getMarkerFilter = ( arrayElements ) => {
     }
     return array;
   })
-    .then((array) => {
-      if( price.value === 'middle') {
+    .then((array)=>{
+      if( price.value === 'middle' ) {
         array = array.filter((element) => {
           const priceElement = element[1].querySelector('.popup__text--price').textContent;
           if ( 10000 <= parseInt( priceElement, 10 ) && parseInt( priceElement, 10) <= 50000 ) {
@@ -64,12 +64,12 @@ const getMarkerFilter = ( arrayElements ) => {
       }
       return array;
     })
-    .then((array) =>{
+    .then((array) => {
       if(room.value !== 'any') {
         array = array.filter((element) => {
           const roomElement = element[1].querySelector('.popup__text--capacity').textContent;
           const numberRoom = getNumber(roomElement);
-          if (room.value === numberRoom[0]){
+          if ( room.value === numberRoom[0] ) {
             return true;
           }
         });
@@ -91,7 +91,7 @@ const getMarkerFilter = ( arrayElements ) => {
       return array;
     })
     .then((array) => {
-      array = array.filter ( (element) => {
+      array = array.filter ((element) => {
         if( getRankFeatures(element) === features.length ){
           return true;
         }
@@ -102,7 +102,7 @@ const getMarkerFilter = ( arrayElements ) => {
   function getRankFeatures (element) {
     let rank = 0;
     const featuresPopups = element[1].querySelectorAll('.popup__feature');
-    features.forEach((elementFeatures)=>{
+    features.forEach((elementFeatures) => {
       for( const elementPopup of featuresPopups ) {
         if( `popup__feature--${elementFeatures.value}` === elementPopup.classList[1] ) {
           rank+=1;
@@ -113,10 +113,10 @@ const getMarkerFilter = ( arrayElements ) => {
   }
 };
 
-const changeMapFilter = ( getMapMarker, arrayElements ) => {
-  formMapFilter.addEventListener('change', ()=>{
-    const mapMarkerFilter  = getMarkerFilter( arrayElements );
-    debounce ( ()=>{getMapMarker(mapMarkerFilter);}, TIME_TIMEOUT_FILTER);
+const changeMapFilter = (getMapMarker, arrayElements) => {
+  formMapFilter.addEventListener('change', () => {
+    const mapMarkerFilter  = getMarkerFilter(arrayElements);
+    debounce (() => {getMapMarker(mapMarkerFilter);}, TIME_TIMEOUT_FILTER);
   });
 };
 

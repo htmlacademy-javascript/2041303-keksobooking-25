@@ -3,7 +3,7 @@ const adForm = document.querySelector('.ad-form');
 const mapFilter = document.querySelector('.map__filters');
 
 const getDisabled = () => {
-  adForm.classList.add( 'ad-form--disabled' );
+  adForm.classList.add('ad-form--disabled');
   const adFormFieldsetList = adForm.querySelectorAll('fieldset');
   for( const elem of adFormFieldsetList ) {
     elem.disabled = true;

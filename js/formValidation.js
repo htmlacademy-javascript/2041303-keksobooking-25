@@ -1,6 +1,7 @@
-import { addSlider } from './utilitSlaider.js';
-import { getMapMarker } from './addMap.js';
-import { getSubmit } from './api.js';
+import {addSlider} from './utilitSlaider.js';
+import {getMapMarker} from './addMap.js';
+import './avatar.js';
+import {getSubmit} from './api.js';
 const success = document.querySelector('#success').content;
 const error = document.querySelector('#error').content;
 const placeMessage = document.querySelector('body');
@@ -56,25 +57,25 @@ pristine.addValidator(
 
 
 function getValidationPrice (value) {
-  if( value === undefined ){
+  if( value === undefined ) {
     return false;
   }
   return value >= typeHousOptions[typeHous.value] && value <= 100000;
 }
-function getPriceErrorMassage () {
+function getPriceErrorMassage() {
   return `От ${typeHousOptions[typeHous.value]} до 100000`;
 }
-pristine.addValidator (
+pristine.addValidator(
   price,
   getValidationPrice,
   getPriceErrorMassage,
 );
 
-function getValidateCapacity () {
+function getValidateCapacity() {
   return roomOptions[roomNumber.value].includes(capacity.value);
 }
 
-function getCapacityErrorMessage () {
+function getCapacityErrorMessage() {
   return capacityErrorMassageOptions[roomNumber.value];
 }
 
@@ -90,19 +91,19 @@ roomNumber.addEventListener('change', () => {
 });
 
 typeHous.addEventListener('change', () => {
-  getValidationPrice ();
+  getValidationPrice();
   pristine.validate (price);
 });
 
 time.addEventListener ('change', (evt) => {
   const actual = evt.target.value;
-  form.querySelector('#timein').value=actual;
-  form.querySelector('#timeout').value=actual;
+  form.querySelector('#timein').value = actual;
+  form.querySelector('#timeout').value = actual;
 });
 
 const getActiveButton = () => {
   buttonSubmit.disabled=true;
-  window.addEventListener ('load',() => {
+  window.addEventListener ('load', () => {
     buttonSubmit.disabled = false;
   });
 };
@@ -114,11 +115,11 @@ const onSuccessSubmit = (cb) => {
   buttonSubmit.disabled=true;
   const successClone = success.cloneNode (true);
   const successMessage = successClone.querySelector ('.success');
-  placeMessage.appendChild (successMessage);
+  placeMessage.appendChild(successMessage);
   cb (successMessage);
-  form.reset ();
-  formFilter.reset ();
-  getMapMarker ();
+  form.reset();
+  formFilter.reset();
+  getMapMarker();
 };
 const removeMessege = (place) => {
   buttonSubmit.disabled = false;
@@ -126,43 +127,43 @@ const removeMessege = (place) => {
   document.removeEventListener('keydown', onRemoveMessage);
 };
 
-function onRemoveMessage (place) {
-  place.addEventListener ('click', ()=>{
+function onRemoveMessage (place){
+  place.addEventListener ('click', () => {
     removeMessege (place);
   });
   const button = place.querySelector ('button');
   if(button!== null){
-    button.addEventListener ('click', ()=>{
+    button.addEventListener ('click', () => {
       removeMessege (place);
     });
   }
-  document.addEventListener ('keydown', (evt)=>{
-    if ( evt.key === 'Escape' ){
-      evt.preventDefault ();
+  document.addEventListener ('keydown', (evt) => {
+    if ( evt.key === 'Escape' ) {
+      evt.preventDefault();
       removeMessege (place);
     }
   });
 }
 
-const onErrorSubmite = ( cb ) => {
+const onErrorSubmite = (cb) => {
   const errorClone = error.cloneNode (true);
   const errorMessage = errorClone.querySelector ('.error');
   placeMessage.appendChild (errorMessage);
   cb (errorMessage);
 };
 reset.addEventListener ('click', (evt) => {
-  evt.preventDefault ();
-  form.reset ();
-  formFilter.reset ();
+  evt.preventDefault();
+  form.reset();
+  formFilter.reset();
   price.value = 1000;
-  getMapMarker ();
+  getMapMarker();
 });
 form.addEventListener('submit', (evt) => {
-  evt.preventDefault ();
-  const isValid = pristine.validate ();
+  evt.preventDefault();
+  const isValid = pristine.validate();
   if (isValid){
-    const formData = new FormData ( evt.target );
-    getSubmit( onSuccessSubmit, onErrorSubmite, formData);
+    const formData = new FormData(evt.target);
+    getSubmit(onSuccessSubmit, onErrorSubmite, formData);
   }
 });
-export{ onRemoveMessage };
+export{onRemoveMessage};
