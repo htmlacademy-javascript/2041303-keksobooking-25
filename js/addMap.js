@@ -57,6 +57,9 @@ const getMapMarker = (arrayElement) => {
     lng: 139.75982666015628
   }, 10);
   address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
+  if (arrayElement === undefined){
+    arrayElement = arrayElements;
+  }
   arrayElement.then( (array) => {
     const mapMarkerArray = array.slice( 0, 10 );
     for(let i = 0; i < mapMarkerArray.length; i++ ) {
@@ -69,8 +72,8 @@ const getMapMarker = (arrayElement) => {
           icon: adIcon,
         },
       );
-      marker.addTo (markerGroup)
-        .bindPopup (mapMarkerArray[i][1]);
+      marker.addTo(markerGroup)
+        .bindPopup(mapMarkerArray[i][1]);
     }
   });
 };
