@@ -1,16 +1,20 @@
-import {getActive, getDisabled} from './switchingModes.js';
+import {getActive, getDisabled} from './switching.js';
 import {getData} from './api.js';
-import {onSuccess, onError}from './hotelPopap.js';
-import {changeMapFilter}from './mapFilter.js';
+import {onSuccess, onError}from './hotel-popup.js';
+import {changeMapFilter}from './map-filter.js';
+const MAP_ZOOM = 10;
+const MAIN_MARKER_LAT = 35.69410994928452;
+const MAIN_MARKER_LNG = 139.75982666015628;
+const AMOUNT_MARKER_ON_MAP = 10;
 getDisabled ( );
 const arrayElements = Promise.resolve(getData( onSuccess, onError));
 const address = document.querySelector('#address');
 
 const map = L.map('map-canvas')
   .setView({
-    lat: 35.69410994928452,
-    lng: 139.75982666015628
-  }, 10);
+    lat: MAIN_MARKER_LAT,
+    lng: MAIN_MARKER_LNG
+  }, MAP_ZOOM);
 
 L.tileLayer(
   'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -32,8 +36,8 @@ const adIcon = L.icon({
 
 const mainMarker = L.marker(
   {
-    lat: 35.69410994928452,
-    lng: 139.75982666015628,
+    lat: MAIN_MARKER_LAT,
+    lng: MAIN_MARKER_LNG,
   },
   {
     draggable: true,
@@ -44,24 +48,24 @@ const markerGroup = L.layerGroup().addTo(map);
 
 map.addEventListener('load', getActive());
 mainMarker.addTo(map);
-address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
+address.value = `Lat ${MAIN_MARKER_LAT.toFixed(5)}  Lng ${MAIN_MARKER_LNG.toFixed(5)}`;
 
 const getMapMarker = (arrayElement) => {
   markerGroup.clearLayers();
   mainMarker.setLatLng({
-    lat: 35.69410994928452,
-    lng: 139.75982666015628,
+    lat: MAIN_MARKER_LAT,
+    lng: MAIN_MARKER_LNG,
   });
   map.setView({
-    lat: 35.69410994928452,
-    lng: 139.75982666015628
-  }, 10);
-  address.value = `Lat ${35.69410994928452.toFixed(5)}  Lng ${139.75982666015628.toFixed(5)}`;
+    lat: MAIN_MARKER_LAT,
+    lng: MAIN_MARKER_LNG
+  }, MAP_ZOOM);
+  address.value = `Lat ${MAIN_MARKER_LAT.toFixed(5)}  Lng ${MAIN_MARKER_LNG.toFixed(5)}`;
   if (arrayElement === undefined){
     arrayElement = arrayElements;
   }
   arrayElement.then( (array) => {
-    const mapMarkerArray = array.slice( 0, 10 );
+    const mapMarkerArray = array.slice(0, AMOUNT_MARKER_ON_MAP);
     for(let i = 0; i < mapMarkerArray.length; i++ ) {
       const marker = L.marker(
         {

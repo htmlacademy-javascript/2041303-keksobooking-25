@@ -1,3 +1,3 @@
-import './hotelPopap.js';
-import './formValidation.js';
-import './addMap.js';
+import './hotel-popup.js';
+import './form.js';
+import './add-map.js';
