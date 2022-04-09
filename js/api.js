@@ -1,4 +1,4 @@
-import {onRemoveMessage} from'./formValidation.js';
+import {onRemoveMessage} from'./form.js';
 const getData = (onSuccess, onError) => fetch(
   'https://25.javascript.pages.academy/keksobooking/data',
   {

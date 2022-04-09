@@ -1,4 +1,4 @@
-import {getDisabledFilter} from './switchingModes.js';
+import {getDisabledFilter} from './switching.js';
 const card = document.querySelector('#card').content;
 const typeHouseObjekt = {
   palace:'Дворец',
@@ -7,9 +7,8 @@ const typeHouseObjekt = {
   bungalow:'Бунгало',
   hotel:'Отель'
 };
-function getfilterSelectedText (selected) {
-  return typeHouseObjekt [selected.value];
-}
+const getfilterSelectedText = (selected) => typeHouseObjekt [selected.value];
+
 const checkFillingText = (...checkElemrnt) => {
   checkElemrnt.forEach((element) => {
     if( element.textContent.length === 0 ) {

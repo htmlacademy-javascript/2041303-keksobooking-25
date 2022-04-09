@@ -1,5 +1,5 @@
-import {addSlider} from './utilitSlaider.js';
-import {getMapMarker} from './addMap.js';
+import {addSlider} from './utilit-slaider.js';
+import {getMapMarker} from './add-map.js';
 import './avatar.js';
 import {getSubmit} from './api.js';
 const success = document.querySelector('#success').content;
@@ -35,6 +35,10 @@ const capacity = document.querySelector('#capacity');
 const buttonSubmit = document.querySelector('.ad-form__submit');
 const time = form.querySelector('.ad-form__element--time');
 const slaider = form.querySelector('.ad-form__slider');
+const TITLE_LENGTH_MIN = 30;
+const TITLE_LENGTH_MAX = 100;
+const PRICE_MAX_VALUE = 100000;
+const PRICE_VALUE_RESET = 1000;
 
 const pristine = new Pristine(form, {
   classTo: 'ad-form__element',
@@ -45,9 +49,7 @@ const pristine = new Pristine(form, {
   errorTextClass: 'ad-form__error',
 });
 
-function getValidationTitle (value) {
-  return value.length >= 30 && value.length <= 100;
-}
+const getValidationTitle = (value) => value.length >= TITLE_LENGTH_MIN && value.length <= TITLE_LENGTH_MAX;
 
 pristine.addValidator(
   title,
@@ -56,28 +58,25 @@ pristine.addValidator(
 );
 
 
-function getValidationPrice (value) {
+const getValidationPrice = (value) => {
   if( value === undefined ) {
     return false;
   }
-  return value >= typeHousOptions[typeHous.value] && value <= 100000;
-}
-function getPriceErrorMassage() {
-  return `От ${typeHousOptions[typeHous.value]} до 100000`;
-}
+  return value >= typeHousOptions[typeHous.value] && value <= PRICE_MAX_VALUE;
+};
+
+const getPriceErrorMassage = () => `От ${typeHousOptions[typeHous.value]} до 100000`;
+
 pristine.addValidator(
   price,
   getValidationPrice,
   getPriceErrorMassage,
 );
 
-function getValidateCapacity() {
-  return roomOptions[roomNumber.value].includes(capacity.value);
-}
+const getValidateCapacity = () => roomOptions[roomNumber.value].includes(capacity.value);
 
-function getCapacityErrorMessage() {
-  return capacityErrorMassageOptions[roomNumber.value];
-}
+
+const getCapacityErrorMessage = () => capacityErrorMassageOptions[roomNumber.value];
 
 pristine.addValidator(
   capacity,
@@ -109,7 +108,7 @@ const getActiveButton = () => {
 };
 getActiveButton ();
 
-addSlider (slaider, price, typeHousOptions, typeHous, form);
+addSlider (slaider, price, typeHousOptions, typeHous, form, reset);
 
 const onSuccessSubmit = (cb) => {
   buttonSubmit.disabled=true;
@@ -127,7 +126,7 @@ const removeMessege = (place) => {
   document.removeEventListener('keydown', onRemoveMessage);
 };
 
-function onRemoveMessage (place){
+function onRemoveMessage (place) {
   place.addEventListener ('click', () => {
     removeMessege (place);
   });
@@ -155,7 +154,7 @@ reset.addEventListener ('click', (evt) => {
   evt.preventDefault();
   form.reset();
   formFilter.reset();
-  price.value = 1000;
+  price.value = PRICE_VALUE_RESET;
   getMapMarker();
 });
 form.addEventListener('submit', (evt) => {
